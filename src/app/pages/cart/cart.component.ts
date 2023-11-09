@@ -7,23 +7,10 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './cart.component.html',
 })
 export class CartComponent implements OnInit {
-  cart: Cart = [
-    {
-      product: 'https://via.placeholder.com/150',
-      name: 'Snickers',
-      price: 150,
-      quantity: 2,
-      id: 1,
-    },
-    {
-      product: 'https://via.placeholder.com/150',
-      name: 'Mars',
-      price: 1.56,
-      quantity: 5,
-      id: 2,
-    },
-  ];
+  cart: Cart = [];
+
   dataSource: Cart = [];
+
   displayedColumns: string[] = [
     'product',
     'name',
@@ -36,14 +23,33 @@ export class CartComponent implements OnInit {
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.dataSource = this.cart;
+    this.cartService.cart.subscribe(_cart => {
+      this.cart = _cart;
+      this.dataSource = this.cart;
+    });
   }
 
-  getFinalPrice(cart: Cart): number {
+  onGetFinalPrice(cart: Cart): number {
     return this.cartService.getFinalPrice(cart);
   }
 
-  getTotal(item: CartItem): number {
+  onGetTotal(item: CartItem): number {
     return this.cartService.getTotal(item);
+  }
+
+  onClearCart() {
+    this.cartService.clearCart();
+  }
+
+  onRemoveFromCart(element: CartItem) {
+    this.cartService.removeFromCart(element);
+  }
+
+  onAddQuantity(element: CartItem) {
+    this.cartService.addQuantity(element);
+  }
+
+  onSubtractQuantity(element: CartItem) {
+    this.cartService.subtractQuantity(element);
   }
 }

@@ -21,14 +21,14 @@ export class HeaderComponent implements OnInit {
       this.itemCount = cart.length;
     });
   }
-  getTotal(item: CartItem): number {
+  onGetTotal(item: CartItem): number {
     return this.cartService.getTotal(item);
   }
-  getFinalPrice(cart: Cart): number {
+  onGetFinalPrice(cart: Cart): number {
     return this.cartService.getFinalPrice(cart);
   }
 
-  clearCart() {
+  onClearCart() {
     this.cartService.clearCart();
   }
 }

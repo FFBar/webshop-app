@@ -21,18 +21,18 @@
         *ngFor="let item of items"
         class="flex justify-between font-light mb-2">
         {{ item.name }} x {{ item.quantity }}
-        <span class="font-bold">{{ getTotal(item) | currency: 'EUR' }}</span>
+        <span class="font-bold">{{ onGetTotal(item) | currency: 'EUR' }}</span>
       </div>
 
       <div class="flex justify-between py-3 font-light">
         Total
         <span class="font-bold">{{
-          getFinalPrice(items) | currency: 'EUR'
+          onGetFinalPrice(items) | currency: 'EUR'
         }}</span>
       </div>
       <div class="pt-3 flex justify-between">
         <button
-          (click)="clearCart()"
+          (click)="onClearCart()"
           class="bg-rose-600 text-white rounded-full w-9 h-9">
           <mat-icon>remove_shopping_cart</mat-icon>
         </button>
