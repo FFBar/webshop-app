@@ -5,10 +5,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
   templateUrl: './filters.component.html',
 })
 export class FiltersComponent {
-  @Output() showCategory = new EventEmitter<string>();
+  @Output() showCategoryEvent = new EventEmitter<string>();
   categories = ['shoes', 'sports'];
 
   onShowCategory(category: string) {
-    this.showCategory.emit(category);
+    this.showCategoryEvent.emit(category);
   }
 }

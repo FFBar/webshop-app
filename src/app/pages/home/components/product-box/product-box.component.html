@@ -11,14 +11,14 @@ given in the value evaluates to a truthy value, otherwise they are removed-->
     <div class="w-full" [ngClass]="{ 'px-8 flex flex-col': fullWidthMode }">
       <div>
         <h5>Shoes</h5>
-        <p class="truncate hover:whitespace-normal">Snickers</p>
+        <p class="truncate hover:whitespace-normal block">Snickers</p>
         <p *ngIf="fullWidthMode">Description</p>
       </div>
       <div class="flex justify-between">
         <span class="text-red-400">
           {{ '150' | currency: 'EUR' }}
         </span>
-        <button>
+        <button (click)="onAddToCart()">
           <mat-icon class="text-gray-500">add_shopping_cart</mat-icon>
         </button>
       </div>
