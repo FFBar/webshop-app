@@ -29,4 +29,16 @@ export class CartService {
     });
     console.log(this.cart.value);
   }
+  getTotal(item: CartItem): number {
+    return item.price * item.quantity;
+  }
+
+  getFinalPrice(cart: Cart): number {
+    return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  }
+
+  clearCart(): void {
+    this.cart.next([]);
+    this._snackBar.open('Cart cleared', 'Close', { duration: 3000 });
+  }
 }

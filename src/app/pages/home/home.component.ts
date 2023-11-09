@@ -14,7 +14,7 @@ export class HomeComponent {
   rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
 
-  constructor(private cardService: CartService) {}
+  constructor(private cartService: CartService) {}
 
   onColumnsUpdated(columnsCount: number): void {
     this.cols = columnsCount;
@@ -28,7 +28,7 @@ export class HomeComponent {
 
   // Watch out: different type alias! (Product vs. CartItem)
   onAddToCart(product: Product): void {
-    this.cardService.addToCart({
+    this.cartService.addToCart({
       product: product.image,
       name: product.title,
       price: product.price,
