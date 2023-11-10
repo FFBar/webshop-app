@@ -5,34 +5,18 @@
     <app-filters (showCategoryEvent)="onShowCategory($event)"></app-filters>
   </mat-drawer>
   <mat-drawer-content class="p-6">
-    <app-products-header (colChangeEvent)="onColumnsUpdated($event)">
+    <app-products-header
+      (colChangeEvent)="onColumnsUpdated($event)"
+      (sortChangeEvent)="onSortUpdate($event)"
+      (itemsChangeEvent)="onItemsCountUpdate($event)">
     </app-products-header>
     <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
-      <mat-grid-tile>
+      <mat-grid-tile *ngFor="let product of products">
         <app-product-box
+          [product]="product"
           (addToCartEvent)="onAddToCart($event)"
           class="w-full"
           [fullWidthMode]="cols === 1">
-        </app-product-box>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <app-product-box class="w-full" [fullWidthMode]="cols === 1">
-        </app-product-box>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <app-product-box class="w-full" [fullWidthMode]="cols === 1">
-        </app-product-box>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <app-product-box class="w-full" [fullWidthMode]="cols === 1">
-        </app-product-box>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <app-product-box class="w-full" [fullWidthMode]="cols === 1">
-        </app-product-box>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <app-product-box class="w-full" [fullWidthMode]="cols === 1">
         </app-product-box>
       </mat-grid-tile>
     </mat-grid-list>

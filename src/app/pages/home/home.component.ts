@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Product } from '../../components/models/product.model';
 import { CartService } from '../../services/cart.service';
+import { Subscription } from 'rxjs';
+import { StoreService } from '../../services/store.service';
 
 // type: object with a key of type number and a value of type number
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
@@ -9,12 +11,28 @@ const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   cols = 3;
   rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
+  products: Product[] | undefined = [];
+  sort = 'asc';
+  limit = '12';
+  productSubscription: Subscription | undefined;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private storeService: StoreService
+  ) {}
+  ngOnInit(): void {
+    this.getAllProducts();
+  }
+
+  ngOnDestroy(): void {
+    if (this.productSubscription) {
+      this.productSubscription.unsubscribe();
+    }
+  }
 
   onColumnsUpdated(columnsCount: number): void {
     this.cols = columnsCount;
@@ -24,6 +42,7 @@ export class HomeComponent {
 
   onShowCategory(updatedCategory: string): void {
     this.category = updatedCategory;
+    this.getAllProducts();
   }
 
   // Watch out: different type alias! (Product vs. CartItem)
@@ -35,5 +54,23 @@ export class HomeComponent {
       quantity: 1,
       id: product.id,
     });
+  }
+
+  private getAllProducts(): void {
+    this.productSubscription = this.storeService
+      .getAllProducts(this.limit, this.sort, this.category)
+      .subscribe((_products: Product[]) => {
+        this.products = _products;
+      });
+  }
+
+  onSortUpdate(_sort: string) {
+    this.sort = _sort;
+    this.getAllProducts();
+  }
+
+  onItemsCountUpdate(_limit: number) {
+    this.limit = _limit.toString();
+    this.getAllProducts();
   }
 }

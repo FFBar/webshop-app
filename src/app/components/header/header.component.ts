@@ -14,8 +14,6 @@ export class HeaderComponent implements OnInit {
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    // q: Should i subscribe to the cartService in the header component or get the data via @Input-property?
-
     this.cartService.cart.subscribe(cart => {
       this.items = cart;
       this.itemCount = cart.length;
