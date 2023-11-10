@@ -56,7 +56,7 @@ export class CartService {
   subtractQuantity(element: CartItem) {
     let itemToRemove: CartItem | undefined;
 
-    const filteredItems = this.cart.value.map(item => {
+    const updatedItems = this.cart.value.map(item => {
       if (item.id === element.id) {
         if (item.quantity > 1) {
           item.quantity -= 1;
@@ -73,7 +73,7 @@ export class CartService {
       this._snackBar.open('1 Item removed from cart', 'Close', {
         duration: 2000,
       });
-      this.cart.next(filteredItems);
+      this.cart.next(updatedItems);
     }
   }
 }
