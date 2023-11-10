@@ -65,7 +65,7 @@ export class CartComponent implements OnInit {
       })
       .subscribe(async (res: any) => {
         const stripe = await loadStripe(
-          'pk_test_51OB1H1H2MS9dC3lUalgv81gk83dikQtm1dVXXioHjEo5mAg54nmkZk1kgV0WdrTQ3xAuHNtCTts5XfoufJwPYdAf00rvnQn3YC'
+          'Replace with your stripe test public key'
         );
         stripe?.redirectToCheckout({
           sessionId: res.id,
