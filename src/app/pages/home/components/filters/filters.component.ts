@@ -8,6 +8,7 @@ import {
 import { StoreService } from '../../../../services/store.service';
 import { Subscription } from 'rxjs';
 
+// TODO: add 'all' to the categories array and implement the logic
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
@@ -23,7 +24,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.categorySubscription = this.storeService
       .getAllCategories()
       .subscribe(_categories => {
-        this.categories = _categories;
+        this.categories = ['All', ..._categories];
       });
   }
   ngOnDestroy(): void {

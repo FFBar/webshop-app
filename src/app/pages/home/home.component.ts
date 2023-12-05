@@ -4,6 +4,8 @@ import { CartService } from '../../services/cart.service';
 import { Subscription } from 'rxjs';
 import { StoreService } from '../../services/store.service';
 
+// TODO: Refactor output to async pipe
+
 // type: object with a key of type number and a value of type number
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
 @Component({
@@ -41,6 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onShowCategory(updatedCategory: string): void {
+    if (updatedCategory === 'All') updatedCategory = '';
     this.category = updatedCategory;
     this.getAllProducts();
   }

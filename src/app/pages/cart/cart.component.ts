@@ -4,6 +4,7 @@ import { CartService } from '../../services/cart.service';
 import { HttpClient } from '@angular/common/http';
 import { loadStripe } from '@stripe/stripe-js';
 
+// TODO: implement the logic for saving the cart in session storage
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',

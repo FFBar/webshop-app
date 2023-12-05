@@ -11,6 +11,7 @@ export class CartService {
   // Once the initial value is emitted, all subsequent values are emitted to the subscribers
   // add new item to cart: get the current value of the BehaviorSubject, add the new item to the array, emit the new value
   cart = new BehaviorSubject<Cart>([]);
+
   constructor(private _snackBar: MatSnackBar) {}
   addToCart(item: CartItem): void {
     const items = [...this.cart.value];
