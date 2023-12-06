@@ -11,7 +11,7 @@
       (itemsChangeEvent)="onItemsCountUpdate($event)">
     </app-products-header>
     <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
-      <mat-grid-tile *ngFor="let product of products">
+      <mat-grid-tile *ngFor="let product of products$ | async">
         <app-product-box
           [product]="product"
           (addToCartEvent)="onAddToCart($event)"

@@ -1,13 +1,16 @@
-<mat-expansion-panel *ngIf="categories">
+<mat-expansion-panel *ngIf="categories$">
   <mat-expansion-panel-header>
     <mat-panel-title>Categories</mat-panel-title>
   </mat-expansion-panel-header>
   <mat-selection-list multiple="false">
+    <mat-list-option value="All" (click)="onShowCategory('All')">
+      All
+    </mat-list-option>
     <mat-list-option
-      *ngFor="let category of categories"
+      *ngFor="let category of categories$ | async"
       value="category"
       (click)="onShowCategory(category)">
-      {{ category }}
+      {{ category | titlecase }}
     </mat-list-option>
   </mat-selection-list>
 </mat-expansion-panel>

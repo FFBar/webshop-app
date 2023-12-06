@@ -1,37 +1,28 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { StoreService } from '../../../../services/store.service';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
-// TODO: add 'all' to the categories array and implement the logic
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FiltersComponent implements OnInit, OnDestroy {
+export class FiltersComponent implements OnInit {
   @Output() showCategoryEvent = new EventEmitter<string>();
-  categories: string[] | undefined;
-  categorySubscription: Subscription | undefined;
+  categories$: Observable<string[]> | undefined;
 
   constructor(private storeService: StoreService) {}
 
   ngOnInit(): void {
-    this.categorySubscription = this.storeService
-      .getAllCategories()
-      .subscribe(_categories => {
-        this.categories = ['All', ..._categories];
-      });
+    this.categories$ = this.storeService.getAllCategories();
   }
-  ngOnDestroy(): void {
-    if (this.categorySubscription) {
-      this.categorySubscription.unsubscribe();
-    }
-  }
+
   onShowCategory(category: string) {
     this.showCategoryEvent.emit(category);
   }

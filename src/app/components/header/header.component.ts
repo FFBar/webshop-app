@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Cart, CartItem } from '../models/CartItem.model';
 import { CartService } from '../../services/cart.service';
 
-// TODO: ADD authentification with auth0
+// TODO: ADD authentication with auth0
 
 @Component({
   selector: 'app-header',

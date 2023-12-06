@@ -1,10 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Product } from '../../components/models/product.model';
 import { CartService } from '../../services/cart.service';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { StoreService } from '../../services/store.service';
-
-// TODO: Refactor output to async pipe
 
 // type: object with a key of type number and a value of type number
 const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
@@ -12,15 +10,15 @@ const ROWS_HEIGHT: { [id: number]: number } = { 1: 400, 3: 335, 4: 350 };
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   cols = 3;
   rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
-  products: Product[] | undefined = [];
+  products$: Observable<Product[]> | undefined;
   sort = 'asc';
   limit = '12';
-  productSubscription: Subscription | undefined;
 
   constructor(
     private cartService: CartService,
@@ -28,12 +26,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
   ngOnInit(): void {
     this.getAllProducts();
-  }
-
-  ngOnDestroy(): void {
-    if (this.productSubscription) {
-      this.productSubscription.unsubscribe();
-    }
   }
 
   onColumnsUpdated(columnsCount: number): void {
@@ -60,11 +52,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getAllProducts(): void {
-    this.productSubscription = this.storeService
-      .getAllProducts(this.limit, this.sort, this.category)
-      .subscribe((_products: Product[]) => {
-        this.products = _products;
-      });
+    this.products$ = this.storeService.getAllProducts(
+      this.limit,
+      this.sort,
+      this.category
+    );
   }
 
   onSortUpdate(_sort: string) {
