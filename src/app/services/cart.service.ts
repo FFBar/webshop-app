@@ -7,10 +7,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class CartService {
+  cartLocalStorage: Cart = JSON.parse(localStorage.getItem('products') || '[]');
+
   // BehaviorSubject(RxJs): Requires an initial value and emits the current value to new subscribers
   // Once the initial value is emitted, all subsequent values are emitted to the subscribers
   // add new item to cart: get the current value of the BehaviorSubject, add the new item to the array, emit the new value
-  cart = new BehaviorSubject<Cart>([]);
+  cart = new BehaviorSubject<Cart>(this.cartLocalStorage);
 
   constructor(private _snackBar: MatSnackBar) {}
   addToCart(item: CartItem): void {
@@ -24,6 +26,8 @@ export class CartService {
     }
     // emit the new value
     this.cart.next(items);
+
+    this.syncLocalStorage(items);
 
     this._snackBar.open('1 Item added to cart', 'Close', {
       duration: 2000,
@@ -40,6 +44,7 @@ export class CartService {
   clearCart(): void {
     this.cart.next([]);
     this._snackBar.open('Cart cleared', 'Close', { duration: 3000 });
+    this.syncLocalStorage([]);
   }
 
   removeFromCart(element: CartItem): void {
@@ -48,10 +53,12 @@ export class CartService {
     this._snackBar.open('1 Item removed from cart', 'Close', {
       duration: 2000,
     });
+    this.syncLocalStorage(items);
   }
 
   addQuantity(element: CartItem) {
     this.addToCart(element);
+    this.syncLocalStorage(this.cart.value);
   }
 
   subtractQuantity(element: CartItem) {
@@ -75,6 +82,11 @@ export class CartService {
         duration: 2000,
       });
       this.cart.next(updatedItems);
+      this.syncLocalStorage(updatedItems);
     }
+  }
+
+  syncLocalStorage(updatedItems: Array<CartItem>): void {
+    localStorage.setItem('products', JSON.stringify(updatedItems));
   }
 }

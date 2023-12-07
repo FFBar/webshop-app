@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Cart, CartItem } from '../../components/models/CartItem.model';
 import { CartService } from '../../services/cart.service';
 import { HttpClient } from '@angular/common/http';
 import { loadStripe } from '@stripe/stripe-js';
+import { Subscription } from 'rxjs';
 
 // TODO: implement the logic for saving the cart in session storage
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   cart: Cart = [];
 
   dataSource: Cart = [];
@@ -23,13 +24,15 @@ export class CartComponent implements OnInit {
     'action',
   ];
 
+  cartSubscription!: Subscription;
+
   constructor(
     private cartService: CartService,
     private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    this.cartService.cart.subscribe(_cart => {
+    this.cartSubscription = this.cartService.cart.subscribe(_cart => {
       this.cart = _cart;
       this.dataSource = this.cart;
     });
@@ -72,5 +75,8 @@ export class CartComponent implements OnInit {
           sessionId: res.id,
         });
       });
+  }
+  ngOnDestroy(): void {
+    this.cartSubscription.unsubscribe();
   }
 }
