@@ -1,5 +1,4 @@
 <mat-card class="max-w-7xl mx-auto" *ngIf="cart.length">
-  {{ cart | json }}
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-full">
     <ng-container matColumnDef="product">
       <th mat-header-cell *matHeaderCellDef>Product</th>
@@ -98,9 +97,19 @@
 
 <!--empty cart-->
 <mat-card class="max-w-7xl mx-auto" *ngIf="!cart.length">
-  <!--  TODO: relocate button-->
-  <p>
-    Your cart is empty
-    <button mat-raised-button routerLink="/home">Start shopping</button>
-  </p>
+  <div class="flex flex-col items-center mt-4 mb-6 justify-between !space-y-8">
+    <img src="/assets/img/cart.png" alt="cart" class="w-5/12 max-w-xl" />
+    <h1 class="!text-4xl">Your cart is currently empty</h1>
+    <div class="flex flex-col items-center font-light text-lg">
+      <p class="!m-0">
+        Before proceed to checkout, you must add some products to your cart.
+      </p>
+      <p class="!m-0">
+        You will find a lot of interesting products on our "Shop" page.
+      </p>
+    </div>
+    <button color="primary" mat-raised-button routerLink="/home">
+      Start shopping
+    </button>
+  </div>
 </mat-card>

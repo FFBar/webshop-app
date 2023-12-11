@@ -10,7 +10,7 @@
     </mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <div class="p-3 divide-y divide-solid">
+    <div class="p-3 divide-y divide-solid min-w-320">
       <div class="pb-4 flex justify-between">
         <span class="mr-16"
           >{{ itemCount === 1 ? itemCount + ' Item' : itemCount + ' Items' }}
@@ -21,10 +21,12 @@
         *ngFor="let item of items"
         class="flex justify-between font-light mb-2">
         {{ item.name }} x {{ item.quantity }}
-        <span class="font-bold">{{ onGetTotal(item) | currency: 'EUR' }}</span>
+        <span class="font-bold pl-3">{{
+          onGetTotal(item) | currency: 'EUR'
+        }}</span>
       </div>
 
-      <div class="flex justify-between py-3 font-light">
+      <div class="flex justify-between py-3 font-bold">
         Total
         <span class="font-bold">{{
           onGetFinalPrice(items) | currency: 'EUR'
